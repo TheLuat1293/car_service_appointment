@@ -14,13 +14,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[200],
-        elevation: 0, // Loại bỏ bóng
+        elevation: 0,
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-            size: 30,
-          ), // Icon Back
+          icon: const Icon(Icons.arrow_back, color: Colors.white, size: 30),
           onPressed: () {
             Navigator.pushReplacement(
               context,

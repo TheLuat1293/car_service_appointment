@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,95 +8,189 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<Map<String, dynamic>> locations = [
+    {
+      "image": "images/quan7.jpg",
+      "name": "Trụ sở chính",
+      "distance": "0.5 km",
+      "rating": "4.7",
+      "reviews": "1,018",
+      "tag": "Đặt ngay",
+    },
+    {
+      "image": "images/nhabe.jpg",
+      "name": "Chi nhánh 1",
+      "distance": "0.5 km",
+      "rating": "4.7",
+      "reviews": "1,018",
+      "tag": "Đặt ngay",
+    },
+    {
+      "image": "images/your_location.jpg",
+      "name": "Địa điểm của bạn",
+      "distance": "0.5 km",
+      "rating": "4.7",
+      "reviews": "1,018",
+      "tag": "Đặt ngay",
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: const EdgeInsets.all(10),
-        children: [
-          const SizedBox(height: 80),
-          const Text(
-            "Chọn địa điểm sửa chữa",
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueAccent,
-              shadows: [
-                Shadow(
-                  blurRadius: 10.0,
-                  color: Colors.white,
-                  offset: Offset(3, 3),
-                ),
-              ],
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children:
+                    locations
+                        .map((location) => locationCard(location))
+                        .toList(),
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          appoinment(
-            imageUrl: "images/quan7.jpg",
-            name: "Trụ sở chính",
-            location: "68B Nguyễn Hữu Thọ, Tân Hưng, Quận 7 - HCM",
-          ),
-          appoinment(
-            imageUrl: "images/nhabe.jpg",
-            name: "Chi nhánh 1",
-            location: "1260 Lê Văn Lương, Xã Phước Kiển, Huyện Nhà Bè - HCM",
-          ),
-          appoinment(
-            imageUrl: "images/your_location.jpg",
-            name: "Sửa chữa tại nhà",
-            location: "Địa chỉ của bạn",
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget appoinment({
-    required String imageUrl,
-    required String name,
-    required String location,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: Image.asset(
-              imageUrl,
-              width: 150,
-              height: 150,
-              fit: BoxFit.cover,
+  // Widget Header với tiêu đề & thanh tìm kiếm
+  Widget _buildHeader() {
+    return Stack(
+      children: [
+        Container(
+          height: 160,
+          decoration: BoxDecoration(
+            color: Colors.blue[200],
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(50),
+              bottomRight: Radius.circular(50),
             ),
           ),
+        ),
+        Positioned(
+          top: 40,
+          left: 20,
+          right: 20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Thanh Phong Auto",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 10),
+              // Thanh tìm kiếm
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 2,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Tìm kiếm địa điểm",
+                    border: InputBorder.none,
+                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
-          const SizedBox(width: 15),
-          Expanded(
+  Widget locationCard(Map<String, dynamic> location) {
+    return Card(
+      color: Colors.blue[50],
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                child: Image.asset(
+                  location["image"],
+                  width: double.infinity,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    location["tag"],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  name,
+                  location["name"],
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  location,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.green,
-                  ),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      size: 16,
+                      color: Colors.green,
+                    ),
+                    Text(location["distance"]),
+                    const SizedBox(width: 10),
+                    const Icon(Icons.star, size: 16, color: Colors.amber),
+                    Text("${location["rating"]} (${location["reviews"]})"),
+                  ],
                 ),
               ],
             ),
