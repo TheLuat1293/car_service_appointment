@@ -1,3 +1,4 @@
+import 'package:car_service_appointment/screens/booking_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -123,79 +124,52 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget locationCard(Map<String, dynamic> location) {
-    return Card(
-      color: Colors.blue[50],
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                ),
-                child: Image.asset(
-                  location["image"],
-                  width: double.infinity,
-                  height: 200,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    location["tag"],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BookingScreen(locationName: location["name"]),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  location["name"],
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on,
-                      size: 16,
-                      color: Colors.green,
-                    ),
-                    Text(location["distance"]),
-                    const SizedBox(width: 10),
-                    const Icon(Icons.star, size: 16, color: Colors.amber),
-                    Text("${location["rating"]} (${location["reviews"]})"),
-                  ],
-                ),
-              ],
+        );
+      },
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+              child: Image.asset(
+                location["image"],
+                width: double.infinity,
+                height: 180,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(location["name"],
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on, size: 16, color: Colors.green),
+                      Text(location["distance"]),
+                      const SizedBox(width: 10),
+                      const Icon(Icons.star, size: 16, color: Colors.amber),
+                      Text("${location["rating"]} (${location["reviews"]})"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
