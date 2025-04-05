@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="car_service_appointment"
+        android:label="Đặt lịch bảo dưỡng"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

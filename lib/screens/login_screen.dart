@@ -1,4 +1,5 @@
 import 'package:car_service_appointment/screens/home_screen.dart';
+import 'package:car_service_appointment/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:car_service_appointment/screens/forgot_password_screen.dart';
 import 'package:car_service_appointment/screens/sign_up_screen.dart';
@@ -148,14 +149,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          MaterialPageRoute(builder: (context) => MainScreen()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 50,
-                          vertical: 20,
+                          vertical: 10,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
