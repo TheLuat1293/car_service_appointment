@@ -124,8 +124,8 @@ class _Booking2ScreenState extends State<Booking2Screen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.of(context).pop(); // Quay lại trang trước
-        return false; // Không thoát app
+        Navigator.of(context).pop();
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -148,7 +148,6 @@ class _Booking2ScreenState extends State<Booking2Screen> {
                 ),
                 const SizedBox(height: 12),
 
-                // 🟢 Thông tin cá nhân
                 _buildCard("Thông tin cá nhân", [
                   _buildTextField("Họ và tên", "vd: Nguyễn Văn A", _nameController),
                   _buildTextField("Email", "vd: nguyenvana@gmail.com", _emailController, keyboardType: TextInputType.emailAddress),
