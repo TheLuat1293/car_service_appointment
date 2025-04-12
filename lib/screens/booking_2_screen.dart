@@ -65,7 +65,12 @@ class _Booking2ScreenState extends State<Booking2Screen> {
     );
   }
 
-  Widget _buildTextField(String label, String placeholder, TextEditingController controller, {TextInputType? keyboardType}) {
+  Widget _buildTextField(
+    String label,
+    String placeholder,
+    TextEditingController controller, {
+    TextInputType? keyboardType,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: TextField(
@@ -83,7 +88,13 @@ class _Booking2ScreenState extends State<Booking2Screen> {
     );
   }
 
-  Widget _buildDropdownField(String label, List<String> options, String? selectedValue, void Function(String?) onChanged, {bool isRequired = false}) {
+  Widget _buildDropdownField(
+    String label,
+    List<String> options,
+    String? selectedValue,
+    void Function(String?) onChanged, {
+    bool isRequired = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: DropdownButtonFormField2<String>(
@@ -91,30 +102,40 @@ class _Booking2ScreenState extends State<Booking2Screen> {
         decoration: InputDecoration(
           labelText: isRequired ? '$label (*)' : label,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10), // Adjusted padding
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 16,
+            horizontal: 10,
+          ),
+          // Adjusted padding
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 2,
+            ),
             borderRadius: BorderRadius.circular(8),
           ),
           floatingLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
         ),
         dropdownStyleData: DropdownStyleData(
           maxHeight: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
         ),
         iconStyleData: const IconStyleData(
-          icon: Icon(
-            Icons.keyboard_arrow_down_rounded,
-            color: Colors.grey,
-          ),
+          icon: Icon(Icons.keyboard_arrow_down_rounded, color: Colors.grey),
           iconSize: 24,
         ),
         value: selectedValue,
-        items: options.isEmpty
-            ? [DropdownMenuItem(enabled: false, child: Text("Chọn ${label.toLowerCase()} trước"))]
-            : options.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+        items:
+            options.isEmpty
+                ? [
+                  DropdownMenuItem(
+                    enabled: false,
+                    child: Text("Chọn ${label.toLowerCase()} trước"),
+                  ),
+                ]
+                : options
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
         onChanged: onChanged,
       ),
     );
@@ -129,7 +150,10 @@ class _Booking2ScreenState extends State<Booking2Screen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Đặt Lịch Dịch Vụ", style: TextStyle(fontWeight: FontWeight.bold)),
+          title: const Text(
+            "Đặt Lịch Dịch Vụ",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           leading: IconButton(
@@ -149,40 +173,94 @@ class _Booking2ScreenState extends State<Booking2Screen> {
                 const SizedBox(height: 12),
 
                 _buildCard("Thông tin cá nhân", [
-                  _buildTextField("Họ và tên", "vd: Nguyễn Văn A", _nameController),
-                  _buildTextField("Email", "vd: nguyenvana@gmail.com", _emailController, keyboardType: TextInputType.emailAddress),
-                  _buildTextField("Số điện thoại", "vd: 0879121567", _phoneController, keyboardType: TextInputType.phone),
-                  _buildTextField("Địa chỉ", "vd: 123 đường ABC, Quận 1", _addressController),
+                  _buildTextField(
+                    "Họ và tên",
+                    "vd: Nguyễn Văn A",
+                    _nameController,
+                  ),
+                  _buildTextField(
+                    "Email",
+                    "vd: nguyenvana@gmail.com",
+                    _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  _buildTextField(
+                    "Số điện thoại",
+                    "vd: 0879121567",
+                    _phoneController,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  _buildTextField(
+                    "Địa chỉ",
+                    "vd: 123 đường ABC, Quận 1",
+                    _addressController,
+                  ),
                 ]),
 
                 // 🚗 Thông tin xe
                 _buildCard("Thông tin xe", [
                   Row(
                     children: [
-                      Expanded(child: _buildDropdownField("Hãng xe", ["Toyota", "Honda", "Ford"], _selectedBrand, (value) => setState(() => _selectedBrand = value))),
+                      Expanded(
+                        child: _buildDropdownField(
+                          "Hãng xe",
+                          ["Toyota", "Honda", "Ford"],
+                          _selectedBrand,
+                          (value) => setState(() => _selectedBrand = value),
+                        ),
+                      ),
                       const SizedBox(width: 10),
-                      Expanded(child: _buildDropdownField("Dòng xe", ["Camry", "Civic", "Ranger"], _selectedModel, (value) => setState(() => _selectedModel = value))),
+                      Expanded(
+                        child: _buildDropdownField(
+                          "Dòng xe",
+                          ["Camry", "Civic", "Ranger"],
+                          _selectedModel,
+                          (value) => setState(() => _selectedModel = value),
+                        ),
+                      ),
                     ],
                   ),
                   Row(
                     children: [
-                      Expanded(child: _buildTextField("Đời xe", "vd: 2025", _carYearController, keyboardType: TextInputType.number)),
+                      Expanded(
+                        child: _buildTextField(
+                          "Đời xe",
+                          "vd: 2025",
+                          _carYearController,
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
                       const SizedBox(width: 10),
-                      Expanded(child: _buildTextField("Biển số xe", "vd: 59A-999.99", _plateController)),
+                      Expanded(
+                        child: _buildTextField(
+                          "Biển số xe",
+                          "vd: 59A-999.99",
+                          _plateController,
+                        ),
+                      ),
                     ],
                   ),
                 ]),
 
                 // 🛠 Dịch vụ
-                _buildDropdownField("Dịch vụ", [
-                  "Khoang dưỡng động cơ",
-                  "Bảo dưỡng nội thất",
-                  "Bảo dưỡng định kỳ",
-                  "Sơn dặm vá xe",
-                  "Sửa chữa điện lạnh"
-                ], _selectedService, (value) => setState(() => _selectedService = value)),
+                _buildDropdownField(
+                  "Dịch vụ",
+                  [
+                    "Khoang dưỡng động cơ",
+                    "Bảo dưỡng nội thất",
+                    "Bảo dưỡng định kỳ",
+                    "Sơn dặm vá xe",
+                    "Sửa chữa điện lạnh",
+                  ],
+                  _selectedService,
+                  (value) => setState(() => _selectedService = value),
+                ),
 
-                _buildTextField("Ghi chú", "vd: Xe không khởi động được", _noteController),
+                _buildTextField(
+                  "Ghi chú",
+                  "vd: Xe không khởi động được",
+                  _noteController,
+                ),
 
                 const SizedBox(height: 20),
 
@@ -191,7 +269,11 @@ class _Booking2ScreenState extends State<Booking2Screen> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: _resetFields,
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.grey, foregroundColor: Colors.white, minimumSize: const Size(double.infinity, 50)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                          foregroundColor: Colors.white,
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
                         child: const Text("Hủy"),
                       ),
                     ),
@@ -199,7 +281,11 @@ class _Booking2ScreenState extends State<Booking2Screen> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: _submitForm,
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, foregroundColor: Colors.white, minimumSize: const Size(double.infinity, 50)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
                         child: const Text("Xác nhận"),
                       ),
                     ),
@@ -223,7 +309,10 @@ class _Booking2ScreenState extends State<Booking2Screen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 10),
             ...children,
           ],
