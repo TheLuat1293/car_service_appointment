@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class Booking2Screen extends StatefulWidget {
   const Booking2Screen({super.key});
@@ -82,16 +83,38 @@ class _Booking2ScreenState extends State<Booking2Screen> {
     );
   }
 
-  Widget _buildDropdownField(String label, List<String> options, String? selectedValue, void Function(String?) onChanged) {
+  Widget _buildDropdownField(String label, List<String> options, String? selectedValue, void Function(String?) onChanged, {bool isRequired = false}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
-      child: DropdownButtonFormField<String>(
-        value: selectedValue,
+      child: DropdownButtonFormField2<String>(
+        isExpanded: true,
         decoration: InputDecoration(
-          labelText: label,
+          labelText: isRequired ? '$label (*)' : label,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10), // Adjusted padding
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          floatingLabelStyle: TextStyle(color: Theme.of(context).primaryColor),
         ),
-        items: options.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+        dropdownStyleData: DropdownStyleData(
+          maxHeight: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        iconStyleData: const IconStyleData(
+          icon: Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: Colors.grey,
+          ),
+          iconSize: 24,
+        ),
+        value: selectedValue,
+        items: options.isEmpty
+            ? [DropdownMenuItem(enabled: false, child: Text("Chọn ${label.toLowerCase()} trước"))]
+            : options.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
         onChanged: onChanged,
       ),
     );

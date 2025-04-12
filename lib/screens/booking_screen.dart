@@ -159,51 +159,53 @@ class _BookingScreenState extends State<BookingScreen> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children:
-              availableTimes.map((time) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedTime = time;
-                    });
-                  },
-                  child: Container(
-                    width: 115,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(
-                      color:
-                      selectedTime == time
-                          ? Colors.blue
-                          : Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        if (selectedTime == time)
-                          const BoxShadow(
-                            color: Colors.blueAccent,
-                            blurRadius: 5,
-                            spreadRadius: 1,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                // Tính chiều rộng cho mỗi ô để đủ 3 ô mỗi hàng
+                double totalSpacing = 10 * 2; // 2 khoảng cách giữa 3 cột
+                double itemWidth = (constraints.maxWidth - totalSpacing) / 3;
+
+                return Wrap(
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: availableTimes.map((time) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedTime = time;
+                        });
+                      },
+                      child: Container(
+                        width: itemWidth,
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                        decoration: BoxDecoration(
+                          color: selectedTime == time ? Colors.blue : Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            if (selectedTime == time)
+                              const BoxShadow(
+                                color: Colors.blueAccent,
+                                blurRadius: 5,
+                                spreadRadius: 1,
+                              ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            time,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: selectedTime == time ? Colors.white : Colors.black,
+                            ),
                           ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        time,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color:
-                          selectedTime == time
-                              ? Colors.white
-                              : Colors.black,
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  }).toList(),
                 );
-              }).toList(),
+              },
             ),
 
             const SizedBox(height: 30),
