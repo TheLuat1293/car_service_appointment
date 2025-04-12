@@ -126,10 +126,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget locationCard(Map<String, dynamic> location) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
+        Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => BookingScreen(locationName: location["name"]),
+            builder: (_) => BookingScreen(locationName: location["name"]),
           ),
         );
       },
@@ -141,7 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
               child: Image.asset(
                 location["image"],
                 width: double.infinity,
@@ -154,11 +155,20 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(location["name"],
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(
+                    location["name"],
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Row(
                     children: [
-                      const Icon(Icons.location_on, size: 16, color: Colors.green),
+                      const Icon(
+                        Icons.location_on,
+                        size: 16,
+                        color: Colors.green,
+                      ),
                       Text(location["distance"]),
                       const SizedBox(width: 10),
                       const Icon(Icons.star, size: 16, color: Colors.amber),

@@ -54,178 +54,183 @@ class _BookingScreenState extends State<BookingScreen> {
     String locationAddress =
         locationAddresses[widget.locationName] ?? "Địa chỉ của bạn";
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Đặt lịch dịch vụ",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.blue,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-            size: 30,
-          ), // Icon Back
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 🔹 Thông tin địa điểm
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              elevation: 4,
+    return WillPopScope(
+      onWillPop: () async {
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Đặt lịch dịch vụ",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          backgroundColor: Colors.blue,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
               color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.location_on, color: Colors.red, size: 30),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.locationName,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+              size: 30,
+            ), // Icon Back
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 🔹 Thông tin địa điểm
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                elevation: 4,
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.location_on, color: Colors.red, size: 30),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.locationName,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 5),
-                          Text(
-                            locationAddress,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
+                            const SizedBox(height: 5),
+                            Text(
+                              locationAddress,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // 🔹 Chọn ngày
+              const Text(
+                "Chọn ngày:",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: () => _selectDate(context),
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.blue[100],
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.blue, width: 1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Icon(Icons.calendar_today, color: Colors.blue),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // 🔹 Chọn giờ
+              const Text(
+                "Chọn giờ:",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children:
+                availableTimes.map((time) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedTime = time;
+                      });
+                    },
+                    child: Container(
+                      width: 115,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color:
+                        selectedTime == time
+                            ? Colors.blue
+                            : Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          if (selectedTime == time)
+                            const BoxShadow(
+                              color: Colors.blueAccent,
+                              blurRadius: 5,
+                              spreadRadius: 1,
+                            ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // 🔹 Chọn ngày
-            const Text(
-              "Chọn ngày:",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: () => _selectDate(context),
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.blue[100],
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.blue, width: 1),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Icon(Icons.calendar_today, color: Colors.blue),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // 🔹 Chọn giờ
-            const Text(
-              "Chọn giờ:",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children:
-              availableTimes.map((time) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedTime = time;
-                    });
-                  },
-                  child: Container(
-                    width: 115,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    decoration: BoxDecoration(
-                      color:
-                      selectedTime == time
-                          ? Colors.blue
-                          : Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        if (selectedTime == time)
-                          const BoxShadow(
-                            color: Colors.blueAccent,
-                            blurRadius: 5,
-                            spreadRadius: 1,
+                      child: Center(
+                        child: Text(
+                          time,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color:
+                            selectedTime == time
+                                ? Colors.white
+                                : Colors.black,
                           ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        time,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color:
-                          selectedTime == time
-                              ? Colors.white
-                              : Colors.black,
                         ),
                       ),
                     ),
-                  ),
-                );
-              }).toList(),
-            ),
-
-            const SizedBox(height: 30),
-
-            ElevatedButton(
-              onPressed: selectedTime.isNotEmpty
-                  ? () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Booking2Screen()),
-                );
-              }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  );
+                }).toList(),
               ),
-              child: const Text("Xác nhận đặt lịch", style: TextStyle(fontSize: 18, color: Colors.white)),
-            ),
-          ],
+
+              const SizedBox(height: 30),
+
+              ElevatedButton(
+                onPressed: selectedTime.isNotEmpty
+                    ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Booking2Screen()),
+                  );
+                }
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Text("Xác nhận đặt lịch", style: TextStyle(fontSize: 18, color: Colors.white)),
+              ),
+            ],
+          ),
         ),
       ),
     );

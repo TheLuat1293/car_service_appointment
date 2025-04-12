@@ -99,86 +99,92 @@ class _Booking2ScreenState extends State<Booking2Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Đặt Lịch Dịch Vụ", style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop(); // Quay lại trang trước
+        return false; // Không thoát app
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Đặt Lịch Dịch Vụ", style: TextStyle(fontWeight: FontWeight.bold)),
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Text(
-                "Nhập thông tin chi tiết của bạn",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 12),
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Text(
+                  "Nhập thông tin chi tiết của bạn",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
 
-              // 🟢 Thông tin cá nhân
-              _buildCard("Thông tin cá nhân", [
-                _buildTextField("Họ và tên", "vd: Nguyễn Văn A", _nameController),
-                _buildTextField("Email", "vd: nguyenvana@gmail.com", _emailController, keyboardType: TextInputType.emailAddress),
-                _buildTextField("Số điện thoại", "vd: 0879121567", _phoneController, keyboardType: TextInputType.phone),
-                _buildTextField("Địa chỉ", "vd: 123 đường ABC, Quận 1", _addressController),
-              ]),
+                // 🟢 Thông tin cá nhân
+                _buildCard("Thông tin cá nhân", [
+                  _buildTextField("Họ và tên", "vd: Nguyễn Văn A", _nameController),
+                  _buildTextField("Email", "vd: nguyenvana@gmail.com", _emailController, keyboardType: TextInputType.emailAddress),
+                  _buildTextField("Số điện thoại", "vd: 0879121567", _phoneController, keyboardType: TextInputType.phone),
+                  _buildTextField("Địa chỉ", "vd: 123 đường ABC, Quận 1", _addressController),
+                ]),
 
-              // 🚗 Thông tin xe
-              _buildCard("Thông tin xe", [
+                // 🚗 Thông tin xe
+                _buildCard("Thông tin xe", [
+                  Row(
+                    children: [
+                      Expanded(child: _buildDropdownField("Hãng xe", ["Toyota", "Honda", "Ford"], _selectedBrand, (value) => setState(() => _selectedBrand = value))),
+                      const SizedBox(width: 10),
+                      Expanded(child: _buildDropdownField("Dòng xe", ["Camry", "Civic", "Ranger"], _selectedModel, (value) => setState(() => _selectedModel = value))),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(child: _buildTextField("Đời xe", "vd: 2025", _carYearController, keyboardType: TextInputType.number)),
+                      const SizedBox(width: 10),
+                      Expanded(child: _buildTextField("Biển số xe", "vd: 59A-999.99", _plateController)),
+                    ],
+                  ),
+                ]),
+
+                // 🛠 Dịch vụ
+                _buildDropdownField("Dịch vụ", [
+                  "Khoang dưỡng động cơ",
+                  "Bảo dưỡng nội thất",
+                  "Bảo dưỡng định kỳ",
+                  "Sơn dặm vá xe",
+                  "Sửa chữa điện lạnh"
+                ], _selectedService, (value) => setState(() => _selectedService = value)),
+
+                _buildTextField("Ghi chú", "vd: Xe không khởi động được", _noteController),
+
+                const SizedBox(height: 20),
+
                 Row(
                   children: [
-                    Expanded(child: _buildDropdownField("Hãng xe", ["Toyota", "Honda", "Ford"], _selectedBrand, (value) => setState(() => _selectedBrand = value))),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: _resetFields,
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.grey, foregroundColor: Colors.white, minimumSize: const Size(double.infinity, 50)),
+                        child: const Text("Hủy"),
+                      ),
+                    ),
                     const SizedBox(width: 10),
-                    Expanded(child: _buildDropdownField("Dòng xe", ["Camry", "Civic", "Ranger"], _selectedModel, (value) => setState(() => _selectedModel = value))),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: _submitForm,
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, foregroundColor: Colors.white, minimumSize: const Size(double.infinity, 50)),
+                        child: const Text("Xác nhận"),
+                      ),
+                    ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(child: _buildTextField("Đời xe", "vd: 2025", _carYearController, keyboardType: TextInputType.number)),
-                    const SizedBox(width: 10),
-                    Expanded(child: _buildTextField("Biển số xe", "vd: 59A-999.99", _plateController)),
-                  ],
-                ),
-              ]),
-
-              // 🛠 Dịch vụ
-              _buildDropdownField("Dịch vụ", [
-                "Khoang dưỡng động cơ",
-                "Bảo dưỡng nội thất",
-                "Bảo dưỡng định kỳ",
-                "Sơn dặm vá xe",
-                "Sửa chữa điện lạnh"
-              ], _selectedService, (value) => setState(() => _selectedService = value)),
-
-              _buildTextField("Ghi chú", "vd: Xe không khởi động được", _noteController),
-
-              const SizedBox(height: 20),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _resetFields,
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.grey, foregroundColor: Colors.white, minimumSize: const Size(double.infinity, 50)),
-                      child: const Text("Hủy"),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: _submitForm,
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blue, foregroundColor: Colors.white, minimumSize: const Size(double.infinity, 50)),
-                      child: const Text("Xác nhận"),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
