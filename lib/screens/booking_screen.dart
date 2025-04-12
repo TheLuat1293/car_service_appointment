@@ -77,7 +77,7 @@ class _BookingScreenState extends State<BookingScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔹 Thông tin địa điểm
+            // Thông tin địa điểm
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -120,7 +120,7 @@ class _BookingScreenState extends State<BookingScreen> {
 
             const SizedBox(height: 20),
 
-            // 🔹 Chọn ngày
+            // Chọn ngày
             const Text(
               "Chọn ngày:",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -153,7 +153,7 @@ class _BookingScreenState extends State<BookingScreen> {
 
             const SizedBox(height: 20),
 
-            // 🔹 Chọn giờ
+            // Chọn giờ
             const Text(
               "Chọn giờ:",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

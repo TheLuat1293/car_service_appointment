@@ -197,7 +197,7 @@ class _Booking2ScreenState extends State<Booking2Screen> {
                   ),
                 ]),
 
-                // 🚗 Thông tin xe
+                // Thông tin xe
                 _buildCard("Thông tin xe", [
                   Row(
                     children: [
@@ -242,7 +242,7 @@ class _Booking2ScreenState extends State<Booking2Screen> {
                   ),
                 ]),
 
-                // 🛠 Dịch vụ
+                // Dịch vụ
                 _buildDropdownField(
                   "Dịch vụ",
                   [
