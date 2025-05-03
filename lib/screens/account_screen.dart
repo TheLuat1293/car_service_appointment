@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:car_service_appointment/screens/change_password_screen.dart';
 import 'package:car_service_appointment/screens/edit_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -194,8 +195,9 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _changePassword() {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Chức năng đổi mật khẩu chưa được cài đặt.')),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
     );
   }
 
