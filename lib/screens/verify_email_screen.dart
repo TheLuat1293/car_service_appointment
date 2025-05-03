@@ -17,7 +17,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           context,
           MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
         );
-        return false; // Không thoát app
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
