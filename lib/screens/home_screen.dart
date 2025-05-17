@@ -35,6 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
       "tag": "Đặt ngay",
     },
   ];
+  TextEditingController searchController = TextEditingController();
+  List<Map<String, dynamic>> filteredLocations = [];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredLocations = locations;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
-                children:
-                    locations
-                        .map((location) => locationCard(location))
-                        .toList(),
+                children: filteredLocations.map((location) => locationCard(location)).toList(),
               ),
             ),
           ],
@@ -109,6 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 child: TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      filteredLocations = locations.where((location) {
+                        final name = location["name"].toString().toLowerCase();
+                        return name.contains(value.toLowerCase());
+                      }).toList();
+                    });
+                  },
                   decoration: InputDecoration(
                     hintText: "Tìm kiếm địa điểm",
                     border: InputBorder.none,
