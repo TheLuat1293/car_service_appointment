@@ -377,7 +377,7 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             const Divider(indent: 16, endIndent: 16, height: 1, thickness: 0.5),
             _buildListTile(
-              icon: Icons.history_outlined, title: "Lịch sử đặt lịch",
+              icon: Icons.language, title: "Ngôn ngữ",
               onTap: _viewHistory, theme: theme,
             ),
             const Divider(indent: 16, endIndent: 16, height: 1, thickness: 0.5),

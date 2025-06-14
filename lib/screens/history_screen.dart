@@ -75,7 +75,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             child: DropdownButtonFormField2<String>(
               value: selectedService,
               decoration: InputDecoration(
-                labelText: "Lọc theo dịch vụ",
+                labelText: "Lọc theo trạng thái",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -84,7 +84,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               items: [
                 const DropdownMenuItem(
                   value: null,
-                  child: Text("Tất cả dịch vụ"),
+                  child: Text("Tất cả"),
                 ),
                 ...allBookings
                     .map((e) => e.service)

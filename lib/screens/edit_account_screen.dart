@@ -1,4 +1,4 @@
-import 'dart:io'; // Cần thiết để làm việc với File
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class EditAccountScreen extends StatefulWidget {
@@ -123,8 +123,6 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     ImageProvider<Object>? avatarImageProvider;
     if (_currentAvatarPath != null && _currentAvatarPath!.isNotEmpty) {
       if (_currentAvatarPath!.startsWith('images/')) {
@@ -139,12 +137,13 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     avatarImageProvider ??= const AssetImage('images/avatar1.png');
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           "Thông tin của tôi",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
-        backgroundColor: Colors.blue.shade700,
+        backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         elevation: 1,
       ),
@@ -173,7 +172,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
               ),
               const SizedBox(height: 35),
 
-              _buildSectionTitle('Thông tin cơ bản', theme),
+              _buildSectionTitle('Thông tin cơ bản'),
               _buildTextField(
                 label: 'Họ tên',
                 controller: _nameController,
@@ -196,10 +195,10 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                     : null,
               ),
               const SizedBox(height: 15),
-              _buildGenderSelector(theme),
+              _buildGenderSelector(),
 
               const SizedBox(height: 25),
-              _buildSectionTitle('Thông tin liên hệ', theme),
+              _buildSectionTitle('Thông tin liên hệ'),
               _buildTextField(
                 label: 'Số điện thoại',
                 controller: _phoneController,
@@ -240,8 +239,8 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 child: ElevatedButton(
                   onPressed: _saveProfile,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -265,14 +264,15 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title, ThemeData theme) {
+  Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0, top: 8.0),
       child: Text(
         title,
-        style: theme.textTheme.titleMedium?.copyWith(
+        style: const TextStyle(
           fontWeight: FontWeight.w600,
-          color: theme.colorScheme.primary.withOpacity(0.9),
+          color: Colors.blue,
+          fontSize: 16,
           letterSpacing: 0.3,
         ),
       ),
@@ -302,18 +302,14 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
         prefixIcon: Icon(icon, size: 22, color: Colors.grey.shade600),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade300),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: Colors.grey.shade400, width: 1.0),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
-            width: 1.8,
-          ),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          borderSide: BorderSide(color: Colors.blue, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -323,7 +319,7 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: Colors.red.shade700, width: 1.8),
         ),
-        filled: true, // Có nền
+        filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.symmetric(
           vertical: 16.0,
@@ -334,16 +330,16 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
     );
   }
 
-  Widget _buildGenderSelector(ThemeData theme) {
+  Widget _buildGenderSelector() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 8.0, left: 4.0),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
           child: Text(
             'Giới tính',
-            style: theme.textTheme.titleSmall?.copyWith(
-              color: Colors.grey.shade600,
+            style: TextStyle(
+              color: Colors.grey,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -356,10 +352,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 value: 'Nam',
                 groupValue: _gender,
                 onChanged: (value) {
-                  setState(() { _gender = value; });
+                  setState(() {
+                    _gender = value;
+                  });
                 },
                 contentPadding: EdgeInsets.zero,
-                activeColor: theme.colorScheme.primary,
+                activeColor: Colors.blue,
                 visualDensity: VisualDensity.compact,
                 controlAffinity: ListTileControlAffinity.leading,
               ),
@@ -371,10 +369,12 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                 value: 'Nữ',
                 groupValue: _gender,
                 onChanged: (value) {
-                  setState(() { _gender = value; });
+                  setState(() {
+                    _gender = value;
+                  });
                 },
                 contentPadding: EdgeInsets.zero,
-                activeColor: theme.colorScheme.primary,
+                activeColor: Colors.blue,
                 visualDensity: VisualDensity.compact,
                 controlAffinity: ListTileControlAffinity.leading,
               ),

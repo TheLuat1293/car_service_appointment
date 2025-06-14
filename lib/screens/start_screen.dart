@@ -15,11 +15,11 @@ class StartScreen extends StatelessWidget {
             content: const Text("Bạn có chắc muốn thoát ứng dụng không?"),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(false), // Không thoát
+                onPressed: () => Navigator.of(context).pop(false),
                 child: const Text("Không"),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).pop(true), // Thoát app
+                onPressed: () => Navigator.of(context).pop(true),
                 child: const Text("Có"),
               ),
             ],

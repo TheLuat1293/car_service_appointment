@@ -129,7 +129,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           elevation: 10,
                         ),
                         child: const Text(
-                          "Gửi mã",
+                          "Gửi",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
