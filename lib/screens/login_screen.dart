@@ -1,8 +1,9 @@
+import 'package:car_service_appointment/screens/forgot_password_screen.dart';
 import 'package:car_service_appointment/screens/home_screen.dart';
 import 'package:car_service_appointment/screens/main_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:car_service_appointment/screens/forgot_password_screen.dart';
 import 'package:car_service_appointment/screens/sign_up_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +14,53 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isPasswordHidden = true;
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _loginWithEmailPassword() async {
+    try {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text;
+
+      if (email.isEmpty || password.isEmpty) {
+        _showMessage("Vui lòng nhập đầy đủ email và mật khẩu");
+        return;
+      }
+
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'user-not-found':
+          message = 'Không tìm thấy người dùng.';
+          break;
+        case 'wrong-password':
+          message = 'Mật khẩu không đúng.';
+          break;
+        case 'invalid-email':
+          message = 'Email không hợp lệ.';
+          break;
+        default:
+          message = 'Đăng nhập thất bại. Lỗi: ${e.code}';
+      }
+      _showMessage(message);
+    }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
             content: const Text("Bạn có chắc muốn thoát ứng dụng không?"),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(false), // Không thoát
+                onPressed: () => Navigator.of(context).pop(false),
                 child: const Text("Không"),
               ),
               TextButton(
-                onPressed: () => Navigator.of(context).pop(true), // Thoát app
+                onPressed: () => Navigator.of(context).pop(true),
                 child: const Text("Có"),
               ),
             ],
@@ -87,8 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 40),
-                      // Ô nhập Email
                       TextField(
+                        controller: _emailController,
                         decoration: InputDecoration(
                           labelText: "Email",
                           filled: true,
@@ -103,8 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      // Ô nhập Password
                       TextField(
+                        controller: _passwordController,
                         obscureText: isPasswordHidden,
                         decoration: InputDecoration(
                           labelText: "Mật khẩu",
@@ -158,12 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => MainScreen()),
-                            );
-                          },
+                          onPressed: _loginWithEmailPassword,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,
                             padding: const EdgeInsets.symmetric(
@@ -227,11 +270,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 
-  // Widget tạo nút mạng xã hội
   Widget socialButton(String iconPath) {
     return Container(
       padding: const EdgeInsets.all(10),

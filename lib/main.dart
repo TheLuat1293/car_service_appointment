@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:car_service_appointment/screens/start_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Future.wait([
+    Firebase.initializeApp(),
+  ]);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
